@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ef">
+  <meta name="description" content="Pick your favorite music crossword and join the conversation.">
+  <title>The Music Crossword</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { color-scheme: light; --ink:#20201e; --muted:#77766f; --paper:#f7f5ef; --line:#e8e5dc; --accent:#d45d3f; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; background:var(--paper); color:var(--ink); font-family:'DM Sans',sans-serif; }
+    .wrap { width:min(100% - 40px, 900px); margin:0 auto; }
+    header { padding:27px 0; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--line); }
+    .brand { display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:-.04em; font-size:16px; }
+    .brand-mark { display:grid; place-items:center; width:30px; height:30px; border-radius:50%; background:var(--ink); color:var(--paper); font-size:16px; }
+    .edition { color:var(--muted); font-size:12px; letter-spacing:.11em; text-transform:uppercase; }
+    main { padding:72px 0 80px; }
+    .intro { text-align:center; max-width:640px; margin:0 auto 48px; }
+    .eyebrow { margin:0 0 14px; color:var(--accent); font-size:12px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; }
+    h1 { margin:0; font-family:'Playfair Display',Georgia,serif; font-size:clamp(42px, 8vw, 70px); line-height:1.02; letter-spacing:-.045em; }
+    .intro p:last-child { margin:18px 0 0; color:var(--muted); font-size:17px; line-height:1.6; }
+    .platforms { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+    .platform { min-height:196px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:17px; padding:24px 16px; border:1px solid var(--line); border-radius:18px; background:#fffefa; text-decoration:none; color:var(--ink); box-shadow:0 5px 18px #25201408; transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+    .platform:hover { transform:translateY(-4px); border-color:#d5d0c4; box-shadow:0 12px 28px #25201412; }
+    .platform:focus-visible, button:focus-visible, textarea:focus-visible, input:focus-visible { outline:3px solid #d45d3f66; outline-offset:3px; }
+    .logo-frame { width:94px; height:94px; display:grid; place-items:center; }
+    .logo-frame img { display:block; max-width:100%; max-height:100%; object-fit:contain; }
+    .apple img { width:62px; height:76px; }
+    .spotify img { width:90px; height:90px; }
+    .amazon img { width:88px; height:88px; }
+    .platform-label { display:flex; align-items:center; gap:7px; font-size:16px; font-weight:600; }
+    .arrow { color:var(--muted); font-size:14px; }
+    .comments { margin:55px auto 0; max-width:660px; border-top:1px solid var(--line); padding-top:34px; }
+    .comments-head { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:18px; }
+    h2 { margin:0; font-family:'Playfair Display',Georgia,serif; font-size:27px; letter-spacing:-.025em; }
+    .count { color:var(--muted); font-size:13px; }
+    .comment-form { display:grid; grid-template-columns:1fr auto; gap:10px; }
+    input, textarea { width:100%; border:1px solid var(--line); border-radius:10px; background:#fffefa; color:var(--ink); font:inherit; }
+    input { grid-column:1/-1; padding:12px 14px; }
+    textarea { min-height:84px; resize:vertical; padding:13px 14px; }
+    input::placeholder, textarea::placeholder { color:#9a988f; }
+    button { align-self:end; min-height:48px; padding:0 20px; border:0; border-radius:10px; background:var(--ink); color:white; font:600 14px 'DM Sans',sans-serif; cursor:pointer; transition:background .2s; }
+    button:hover { background:var(--accent); }
+    .comment-list { margin-top:24px; display:grid; gap:12px; }
+    .comment { padding:15px 17px; border:1px solid var(--line); border-radius:12px; background:#fffefa; }
+    .comment-meta { display:flex; gap:9px; align-items:baseline; margin-bottom:6px; }
+    .comment-name { font-weight:700; font-size:14px; }
+    .comment-date { color:var(--muted); font-size:12px; }
+    .comment-text { margin:0; color:#4e4d48; font-size:14px; line-height:1.55; white-space:pre-wrap; overflow-wrap:anywhere; }
+    .empty { color:var(--muted); font-size:14px; }
+    footer { padding:20px 0 28px; border-top:1px solid var(--line); color:var(--muted); font-size:12px; text-align:center; }
+    @media (max-width:600px) {
+      .wrap { width:min(100% - 30px, 500px); }
+      header { padding:20px 0; }
+      .edition { font-size:10px; }
+      main { padding:54px 0 58px; }
+      .intro { margin-bottom:32px; }
+      .intro p:last-child { font-size:15px; }
+      .platforms { gap:9px; }
+      .platform { min-height:143px; padding:14px 8px; gap:9px; border-radius:14px; }
+      .logo-frame { width:68px; height:68px; }
+      .apple img { width:44px; height:54px; }
+      .spotify img,.amazon img { width:66px; height:66px; }
+      .platform-label { font-size:13px; gap:4px; }
+      .arrow { font-size:11px; }
+      .comments { margin-top:40px; padding-top:27px; }
+      .comment-form { grid-template-columns:1fr; }
+      input { grid-column:auto; }
+      button { width:100%; }
+    }
+    @media (max-width:360px) { .platforms { gap:7px; } .platform-label { font-size:12px; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand"><span class="brand-mark" aria-hidden="true">♪</span><span>The Music Crossword</span></div>
+      <span class="edition">A daily tune-up</span>
+    </header>
+    <main>
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow">Listen · Think · Solve</p>
+        <h1 id="page-title">The Music Crossword</h1>
+        <p>Choose your music crossword and see how well you know the songs you love.</p>
+      </section>
+      <nav class="platforms" aria-label="Choose a music crossword">
+        <a class="platform" href="https://blandrig.github.io/apple/" target="_blank" rel="noopener noreferrer" aria-label="Play the Apple Music crossword">
+          <span class="logo-frame apple"><img src="assets/apple.png" alt="Apple logo"></span><span class="platform-label">Apple <span class="arrow" aria-hidden="true">↗</span></span>
+        </a>
+        <a class="platform" href="https://blandrig.github.io/Spotify/" target="_blank" rel="noopener noreferrer" aria-label="Play the Spotify crossword">
+          <span class="logo-frame spotify"><img src="assets/spotify.png" alt="Spotify logo"></span><span class="platform-label">Spotify <span class="arrow" aria-hidden="true">↗</span></span>
+        </a>
+        <a class="platform" href="https://blandrig.github.io/amazon/" target="_blank" rel="noopener noreferrer" aria-label="Play the Amazon Music crossword">
+          <span class="logo-frame amazon"><img src="assets/amazon.png" alt="Amazon logo"></span><span class="platform-label">Amazon <span class="arrow" aria-hidden="true">↗</span></span>
+        </a>
+      </nav>
+      <section class="comments" aria-labelledby="comments-title">
+        <div class="comments-head"><h2 id="comments-title">Comments</h2><span class="count" id="comment-count">Join the conversation</span></div>
+        <form class="comment-form" id="comment-form">
+          <input id="comment-name" name="name" maxlength="40" placeholder="Your name" aria-label="Your name" required>
+          <textarea id="comment-message" name="message" maxlength="500" placeholder="Share a thought, a favorite song, or a crossword tip…" aria-label="Your comment" required></textarea>
+          <button type="submit">Post comment</button>
+        </form>
+        <div class="comment-list" id="comment-list" aria-live="polite"></div>
+      </section>
+    </main>
+    <footer>Made for music lovers.</footer>
+  </div>
+  <script>
+    (() => {
+      const storageKey = 'the-music-crossword-comments';
+      const form = document.getElementById('comment-form');
+      const list = document.getElementById('comment-list');
+      const count = document.getElementById('comment-count');
+      let comments = [];
+      try { comments = JSON.parse(localStorage.getItem(storageKey) || '[]'); } catch { comments = []; }
+      const render = () => {
+        list.replaceChildren();
+        count.textContent = comments.length ? `${comments.length} ${comments.length === 1 ? 'comment' : 'comments'}` : 'Join the conversation';
+        if (!comments.length) {
+          const empty = document.createElement('p'); empty.className = 'empty'; empty.textContent = 'Be the first to leave a comment.'; list.append(empty); return;
+        }
+        [...comments].reverse().forEach((item) => {
+          const article = document.createElement('article'); article.className = 'comment';
+          const meta = document.createElement('div'); meta.className = 'comment-meta';
+          const name = document.createElement('span'); name.className = 'comment-name'; name.textContent = item.name;
+          const date = document.createElement('time'); date.className = 'comment-date'; date.dateTime = item.date; date.textContent = new Date(item.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+          const message = document.createElement('p'); message.className = 'comment-text'; message.textContent = item.message;
+          meta.append(name, date); article.append(meta, message); list.append(article);
+        });
+      };
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const name = document.getElementById('comment-name').value.trim();
+        const message = document.getElementById('comment-message').value.trim();
+        if (!name || !message) return;
+        comments.push({ name, message, date: new Date().toISOString() });
+        try { localStorage.setItem(storageKey, JSON.stringify(comments)); } catch {}
+        form.reset(); render();
+      });
+      render();
+    })();
+  </script>
+</body>
+</html>
